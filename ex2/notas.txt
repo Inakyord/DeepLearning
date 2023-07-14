@@ -1,0 +1,87 @@
+Notas sobre el segundo assignment.
+
+Existen 7 categorias: 
+  --> 0 : speed_30
+  --> 1 : speed_50
+  --> 2 : speed_80
+  --> 3 : no_entry
+  --> 4 : stop
+  --> 5 : road_work
+  --> 6 : no_sign
+
+
+Objetivo: entrenar un modelo de clasificación de 7 clases y usarlo para mostrar los letreros ecnontrados en imágenes más grandes: 512x512. Input de 64x64 pixeles.
+
+Input patch:  3 x 64 x 64
+Output socre: 7 x 1 x 1
+
+
+
+
+Tasks x3:
+
+1) Entrenar una red convolucional.
+   Folders train (7x200) and val(7x20) contain the datasets.
+   - Create dataset and dataloader objects, visualize few images.
+   - Convolutional model:
+       * Convolutional, kernel 3x3, stride 1, 32 channels.
+       * Max Pooling, kernel 3x3, stride 2, ceil = True.
+       * Activation LeakyReLU, slope 0.2.
+       * Convolutional, kernel 3x3, stride 1, 64 channels.
+       * Max Pooling, kernel 3x3 stride 2.
+       * Activation LeakyReLU, slope 0.2.
+       * Convolutional, kernel 3x3, stride 1, 64 channels.
+       * Max Pooling, kernel 2x2, stride 2.
+       * Activation LeakyReLU, slope 0.2
+       * Convolutional, kernel 2x2, stride 1, 128 channels.
+       * Activation LeakyReLU, slope 0.2
+       * Convolutional, kernel 3x3, stride 1, 256 channels.
+       * Activation LeakyReLU, slope 0.2
+       * Convolutional, kernel 3x3, stride 1, 256 channels.
+       * Activation LeakyReLU, slope 0.2
+       * Convolutional, kernel 1x1, stride 1, 7 (output) channels.
+   - Train for 40 epochs with batch size of 16.
+   - Optimize the cross entropy loss.
+   - Use Adam optimizer with learning rate 3e-4=0.0003.
+   - Include plots for training val and acc.
+
+H in  = 64
+H out = 62
+H out = ((Hin - (kernel_size-1) -1) / (stride)) + 1
+H out = ((62 - 3) / 2) + 1
+H_out = 31
+H out = 
+H out = 26
+H out = (26 - 3) / 2) + 1
+H out = 12
+H_out = 8
+H out = (8 - 2) / 2) + 1
+H out = 3
+H out = 
+
+
+H out = [(Hin + 2*0 - (kern-1) - 1) / stride ] + 1
+H out = [Hin - (kern) + 1
+H out = 64 - 2
+H out = 62
+
+32 - 5 + 1
+28
+14 - 5 + 1 
+10
+
+
+2) Correr el modelo en imágenes completas.
+   - Model fully convolutional then no fixed size input needed. 
+   - Feed bigger images and get scores for image patches.
+   - Model can only detect traffic signs of size 64x64 (max) to detect bigger ones --> resize images to smaller scales.
+   - IMPLEMENT a traffic sign detector with the trained model. TrafficSignDetector.
+   - (10pts) finish detect_single_scale: takes input image, returns set of detected sign classes.
+   - (5pts) finish detect_multi_scale: runs detect_single_scale on different sizes of image.
+   - (5pts) folder full_images. Initialize detector with model and run multi_scale traffic sign detection. 
+   
+
+3) Mejorar el modelo.
+   - Tuning your architecture: hyper-parameters, regularization. Examples, training param, network arch, model regularization, test-time augmentation, etc.
+   - Train at leat 3 changed configurations from scratch, describe the changes and report classification accuracy on validation set.
+
